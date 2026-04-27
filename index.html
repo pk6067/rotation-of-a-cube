@@ -8,6 +8,8 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
+    html { scroll-behavior: smooth; }
+
     body {
       background: #0a0a0f;
       font-family: 'Syne', sans-serif;
@@ -87,10 +89,7 @@
       color: #f0eaff;
     }
 
-    h1 em {
-      font-style: normal;
-      color: #c89aff;
-    }
+    h1 em { font-style: normal; color: #c89aff; }
 
     .hero-desc {
       font-size: 0.95rem;
@@ -281,12 +280,16 @@
   <nav>
     <div class="logo">Blender<span>3D</span></div>
     <ul>
-      <li><a href="#">Features</a></li>
-      <li><a href="#">Transform</a></li>
-      <li><a href="#">Download</a></li>
-      <li><a href="#">Docs</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#transform">Transform</a></li>
+      <li><a href="https://www.blender.org/download/" target="_blank">Download</a></li>
+      <li><a href="https://docs.blender.org/" target="_blank">Docs</a></li>
     </ul>
-    <button class="btn-primary" style="padding:0.5rem 1.2rem;font-size:0.78rem;">Get Started</button>
+    <button class="btn-primary"
+      onclick="document.getElementById('transform').scrollIntoView({behavior:'smooth'})"
+      style="padding:0.5rem 1.2rem;font-size:0.78rem;">
+      Get Started
+    </button>
   </nav>
 
   <div class="hero">
@@ -295,8 +298,14 @@
       <h1>Master <em>3D Rotation</em> Transforms in Blender</h1>
       <p class="hero-desc">Explore the core transformation — rotation — that powers 3D animations, rigging, and object orientation in the world's most powerful open-source 3D suite.</p>
       <div class="cta-row">
-        <button class="btn-primary">Download Blender</button>
-        <button class="btn-ghost">Watch Demo</button>
+        <button class="btn-primary"
+          onclick="window.open('https://www.blender.org/download/','_blank')">
+          Download Blender
+        </button>
+        <button class="btn-ghost"
+          onclick="window.open('https://www.youtube.com/watch?v=B0J27sf9N1Y','_blank')">
+          Watch Demo
+        </button>
       </div>
     </div>
 
@@ -312,7 +321,7 @@
     </div>
   </div>
 
-  <div class="info-strip">
+  <div class="info-strip" id="features">
     <div class="info-card">
       <span class="num">3</span>
       <div class="desc">Rotation Axes</div>
@@ -327,7 +336,7 @@
     </div>
   </div>
 
-  <div class="transform-section">
+  <div class="transform-section" id="transform">
     <div class="section-title">Core Transforms</div>
     <div class="section-h2">Rotation in Blender</div>
     <div class="transform-grid">
@@ -460,7 +469,6 @@
         ctx.fill();
       });
 
-      // Axis gizmo
       const origin = [30, H - 30];
       const axisVerts = [[1,0,0],[0,1,0],[0,0,1]];
       const axisColors = ['#ff5555','#88cc44','#5599ff'];
@@ -485,7 +493,8 @@
     function setAxis(ax) {
       axes = { x: false, y: false, z: false };
       axes[ax] = true;
-      document.getElementById('mode-label').textContent = `ROTATION · ${ax.toUpperCase()} AXIS`;
+      document.getElementById('mode-label').textContent =
+        `ROTATION · ${ax.toUpperCase()} AXIS`;
       document.querySelectorAll('.ctrl-btn').forEach((b, i) => {
         b.classList.toggle('active', ['x','y','z'][i] === ax);
       });
@@ -496,7 +505,7 @@
       const btn = document.querySelectorAll('.ctrl-btn')[3];
       btn.textContent = paused ? '▶ RESUME' : '⏸ PAUSE';
     }
-  
+
     function loop() {
       if (!paused) {
         if (axes.x) angleX += 0.012;
